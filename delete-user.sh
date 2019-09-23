@@ -1,4 +1,5 @@
 #!/bin/bash
+# RUN THIS SCRIPT DIRECTLY FROM THE HOST MACHINE, NOT FROM WITHIN THE DOCKER CONTAINER!
 while true; do
     echo
     read -p "Enter the username to delete:  "  USERNAME
