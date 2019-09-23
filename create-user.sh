@@ -1,4 +1,5 @@
 #!/bin/bash
+# RUN THIS SCRIPT DIRECTLY FROM THE HOST MACHINE, NOT FROM WITHIN THE DOCKER CONTAINER!
 echo
 read -p "Enter new username:  "  USERNAME
 if [ -z "$USERNAME" ]; then
