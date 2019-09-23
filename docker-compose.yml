@@ -1,0 +1,11 @@
+web:
+  build: ./svn-docker
+  restart: always
+  container_name: 'svn-server'
+  working_dir: '/home/svn'
+  ports:
+    - '7878:80'
+    - '7879:443'
+    - '3690:3690'
+  volumes:
+    - '/mnt/dev/svn:/home/svn'
