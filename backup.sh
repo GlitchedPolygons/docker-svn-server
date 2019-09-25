@@ -1,6 +1,8 @@
 #!/bin/bash
 # RUN THIS SCRIPT DIRECTLY FROM THE HOST MACHINE, NOT FROM WITHIN THE DOCKER CONTAINER!
 BACKUP_DIR="`dirname $0`/backups"
+WD=`pwd`
+cd $BACKUP_DIR/..
 
 echo '---'
 echo 'Shutting down SVN Server...'
@@ -35,3 +37,4 @@ echo '---'
 echo 'Restarting SVN Server after backup...'
 
 sudo docker-compose up -d
+cd $WD
