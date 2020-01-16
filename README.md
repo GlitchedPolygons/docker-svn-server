@@ -115,5 +115,3 @@ server {
 * * `sudo certbot --nginx -d svn.example.com`
 
 ---
-
-> Raphael Beck, 2019
