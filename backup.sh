@@ -19,7 +19,7 @@ sudo mkdir -p $BACKUP_DIR
 # Make sure that this is the full, 
 # absolute path to the directory where
 # the SVN Server container volume is mounted to.
-VOL_DIR=/mnt/dev/svn/
+VOL_DIR=${SVN_DOCKER_VOLUME_DIR:-/mnt/dockervolumes/svn/}
 
 # Get the current time for the output file name.
 TIMESTAMP=`date +"%Y-%m-%d-%H-%M-%S"`

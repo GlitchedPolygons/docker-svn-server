@@ -15,14 +15,14 @@ simple and painless dockerized SVN Server with easy setup process via docker-com
 
 ## Setup
 
-* Clone this repo into some directory on your server (e.g. `~/svn-docker/`)
+* Clone this repo into some directory on your server (e.g. `~/git/svn-docker/`)
 * `cd` into the freshly cloned repo folder.
 * * In here you can find various shell scripts that you will need later to manage your users and back up your instance.
 * Open the terminal and `sudo docker-compose up -d`
 
-Great! Your SVN Server should already be running by now. It listens to your `localhost:7878` and `localhost:3690` ports (but you can change that inside the [docker-compose.yml](https://github.com/GlitchedPolygons/svn-server-docker/blob/master/docker-compose.yml) file if needed).
+Great! Your SVN Server should already be running by now. It listens by default to your `localhost:7878` and `localhost:3690` ports (but you can change that inside the [docker-compose.yml](https://github.com/GlitchedPolygons/svn-server-docker/blob/master/docker-compose.yml) file if needed; just set the environment variables accordingly - use the `.env` file for that!).
 
-For public inbound internet traffic you'd let some reverse proxy route your requests to those ports (`7878` for HTTP, `3690` for the `svn://` protocol).
+For public inbound internet traffic you'd let some reverse proxy route your requests to those ports (default is `7878` for HTTP and `3690` for the `svn://` protocol).
 
 By default, all access to the entire instance + repositories is disabled for security reasons.
 
@@ -36,7 +36,7 @@ Run `sudo bash create-repo.sh` and follow the CLI instructions in order to creat
 ## Repository access
 
 Your users still can't access repositories created on your SVN Server though. 
-To manage your user permissions, create the file `/mnt/dev/svn/authz` (which, by Docker, is then mapped to the container's `/home/svn/authz` path).
+To manage your user permissions, create the file `/mnt/dockervolumes/svn/authz` (which, by Docker, is then mapped to the container's `/home/svn/authz` path).
 
 An example of [how such an authz file should look](http://svnbook.red-bean.com/en/1.8/svn.serverconfig.pathbasedauthz.html) could be:
 
@@ -50,21 +50,21 @@ user2 = rw
 
 ### Important note about folder paths
 
-By default, this setup uses `/mnt/dev/svn` as the folder path to the docker mounted volume 
+By default, this setup uses `/mnt/dockervolumes/svn` as the folder path to the docker mounted volume 
 (because theoretically, it'd make sense to mount some persistent storage device to this path).
 
-Unless explicitly needed, do not change this (it is possible, yes, but you'd need to replace it in every single shell script file and docker config files).
-
 **Absolutely make sure** that this volume path exists on your server host's machine (and that it has enough space to host your repositories, of course)!
-> **HINT:** use `mkdir -p /mnt/dev/svn` before starting your setup process to be on the safe side.
+> **HINT:** use `mkdir -p /mnt/dockervolumes/svn` before starting your setup process to be on the safe side.
 
 Backups are exported by default into `./backups/`.
 
+Remember that if you customized the `SVN_DOCKER_VOLUME_DIR` .env var (docker volume mount path), you need to pass that variable into the `backup.sh` shell script too!
+
 ## Backups
 
-To back up your entire SVN Server instance, run `sudo bash backup.sh`. The docker container is stopped, its mounted volume `/mnt/dev/svn:/home/svn` is then gzipped into `./backups` and the container is rebooted.
+To back up your entire SVN Server instance, run `sudo bash backup.sh`. The docker container is stopped, its mounted docker volume is then gzipped into `./backups` and the container is rebooted.
 
-Your backups are safely deposited into the `./backups/` folder, but if you want you can encrypt those files using a strong algorithm and upload them to some cloud storage provider for maximum safety (if there ever is such a thing...).
+Your backups are safely deposited into the `./backups/` folder, but you might want to encrypt those files using a strong algorithm and upload them to some cloud storage provider for maximum safety.
 
 > **HINT:** You can [crontab](https://crontab.guru/) the execution of this [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) script and schedule automated backups like this.
 
