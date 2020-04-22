@@ -6,3 +6,4 @@
 backups/
 bin/ 
 out/
+.env
