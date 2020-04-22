@@ -1,11 +1,13 @@
-web:
-  build: ./svn-docker
-  restart: always
-  container_name: 'svn-server'
-  working_dir: '/home/svn'
-  ports:
-    - "${SVN_DOCKER_HTTP_PORT:-7878}:80"
-    - "${SVN_DOCKER_HTTPS_PORT:-7879}:443"
-    - "${SVN_DOCKER_SVNPROTOCOL_PORT:-3690}:3690"
-  volumes:
-    - ${SVN_DOCKER_VOLUME_DIR:-/mnt/dockervolumes/svn}:/home/svn
+version: '3'
+services:
+  svn:
+    build: ./svn-docker
+    restart: always
+    container_name: 'svn-server'
+    working_dir: '/home/svn'
+    ports:
+      - "${SVN_DOCKER_HTTP_PORT:-7878}:80"
+      - "${SVN_DOCKER_HTTPS_PORT:-7879}:443"
+      - "${SVN_DOCKER_SVNPROTOCOL_PORT:-3690}:3690"
+    volumes:
+      - ${SVN_DOCKER_VOLUME_DIR:-/mnt/dockervolumes/svn}:/home/svn
