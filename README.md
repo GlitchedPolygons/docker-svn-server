@@ -114,4 +114,15 @@ server {
 * Thanks to Let's Encrypt + Certbot, [HTTPS setup has never been easier before](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04).
 * * `sudo certbot --nginx -d svn.example.com`
 
+## Updating
+
+To update your svn server version, bash into your container and run the update from in there using the package manager:
+
+```bash
+sudo docker exec -it svn-server bash
+
+apt update
+apt upgrade
+```
+
 ---
