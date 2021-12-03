@@ -1,6 +1,7 @@
 FROM ubuntu:20.04
 
 ARG SVN_HOME=/home/svn
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y subversion apache2 libapache2-mod-svn libsvn-dev && \
